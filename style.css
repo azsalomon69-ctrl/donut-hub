@@ -891,6 +891,41 @@ textarea {
 }
 
 /* =========================================================
+   STORE LINKS — rank and shard cards as anchors
+   ========================================================= */
+.rank-card,
+.shard-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: url("crystal.png") 16 16, pointer;
+}
+
+.rank-card:focus-visible,
+.shard-card:focus-visible {
+  outline: 2px solid var(--donut);
+  outline-offset: 3px;
+}
+
+.rank-card .rank-perks,
+.shard-card .shard-body {
+  text-decoration: none;
+}
+
+.rank-card:hover,
+.shard-card:hover {
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(96, 165, 250, 0.25);
+}
+
+.rank-card.is-featured:hover {
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.65),
+    0 0 0 1px rgba(96, 165, 250, 0.25),
+    0 0 50px rgba(96, 165, 250, 0.22);
+}
+
+/* =========================================================
    LEADERBOARD PAGE
    ========================================================= */
 .leaderboard h2 {
