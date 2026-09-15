@@ -2,7 +2,7 @@
 
 A community companion site for the **DonutSMP** Minecraft server.
 
-Live site: `https://YOUR_USERNAME.github.io/donut-hub/`
+Live site: `https://donut-hub.onrender.com/`
 
 ---
 
