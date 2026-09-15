@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rules &amp; Policies — DonutSMP</title>
+  <meta name="description" content="DonutSMP Minecraft server rules and policies.">
+  <link rel="icon" type="image/webp" href="donut.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="liquid-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="brand-block">
+
+      <a href="index.html" class="brand">
+        <img src="donut.webp" alt="" class="brand-icon">
+        <span class="brand-name">DonutSMP</span>
+      </a>
+
+      <div class="brand-server">
+        <button type="button" class="copy-trigger copyable" data-copy="donutsmp.net" aria-label="Copy server address">
+          <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+
+        <button type="button" class="server-address copyable" data-copy="donutsmp.net">
+          <span>donutsmp.net</span>
+        </button>
+
+        <button type="button" class="server-port copyable" data-copy="port:19132">
+          <span>port:19132</span>
+        </button>
+      </div>
+
+      <div class="player-status" aria-live="polite">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <span class="status-label">Players online</span>
+        <span class="status-count" id="playerCount">—</span>
+      </div>
+
+      <nav class="main-nav liquid-glass" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="rules.html" class="nav-link" aria-current="page">Rules &amp; Policies</a></li>
+          <li><a href="store.html" class="nav-link">Store</a></li>
+          <li><a href="leaderboard.html" class="nav-link">Leaderboards</a></li>
+          <li><a href="https://www.youtube.com/watch?v=mPbVIS5wL6A" class="nav-link" target="_blank" rel="noopener noreferrer">How to Join</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="site-main">
+
+    <section class="rules" aria-labelledby="rules-heading">
+      <h2 id="rules-heading">Minecraft Server Rules</h2>
+
+      <div class="rules-list liquid-glass">
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Hacked Clients</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Using hacked clients like Meteor, Wurst, Impact, Future, or any client that provides unfair advantages (fly, killaura, x-ray, reach, etc.) is strictly forbidden.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Movement Mods</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No mods that change how you move: speed, flight, jesus, no-fall, bunny-hop, or anything that alters vanilla movement.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Inventory Mod</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No mods that let you view, sort, or manipulate other players' inventories, chests, or storage you can't normally access.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Health Indicators</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Showing other players' health values in PvP gives an unfair information advantage. Not allowed.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Radar</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No radar, minimap, or entity tracking that reveals players or mobs outside your vanilla render distance.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Freecam</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Detaching the camera from your body to scout, spy, or explore is not allowed.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No ESP</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No seeing players, mobs, chests, or ores through walls (player ESP, chest ESP, storage ESP, cave finder, etc.).
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Auto or Easy Place</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Auto-place, scaffolding, and easy-place mods bypass normal building mechanics and are banned.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Macros or Scripts</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No auto-running command sequences, chat scripts, or macro chains that perform actions for you.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Auto Clicker</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Any software or hardware that clicks for you (auto-clickers, turbo buttons, CPS tools) is not allowed.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Mouse Tweaks / Scrollers</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Mods like Mouse Tweaks, Inventory Tweaks, or scroll-to-craft that let you move items faster than vanilla.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Crafting Modifications</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No mods that change crafting behavior: auto-craft, recipe book exploitation, or altered recipe outputs.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Abusing Bugs</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Don't exploit unintended mechanics. Even if it works, using a bug to gain items, power, or an advantage is punishable.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Attempted Duplicating</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Attempting to duplicate items carries the same punishment as actually duplicating them.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Duplicating Items</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Any form of item duplication is a permanent-ban offense.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No IRL Trading</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Selling, buying, or trading in-game items, currency, or accounts for real money is forbidden.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Invite Rewards</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Rewarding players for inviting others (in-game items, cash, ranks) is not allowed.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No External Gambling</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No outside gambling sites, coin-flip bots, or wagering systems involving in-game or real value.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Discord Boost Rewards</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Giving in-game rewards in exchange for Discord boosts is not permitted.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Cross-Server Trading</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Trading DonutSMP items for items, currency, or accounts on other servers is banned.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Staff Impersonation</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Pretending to be staff through names, nicknames, ranks, or messages is a serious offense.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Using More Than 5 Accounts</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Each player may use up to 5 accounts. Using alts to bypass bans, farm rewards, or abuse mechanics is not allowed.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Finding or Using the Seed</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Reverse-engineering the world seed or using external tools to locate structures, ores, or terrain is banned.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">No Spamming Voice Chat</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            No soundboards, screaming, earrape, music spam, or anything that ruins voice chat for others.
+          </div>
+        </details>
+
+        <details class="rule">
+          <summary>
+            <span class="rule-title">Report all Bugs, Glitches, and Cheaters</span>
+            <span class="rule-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="rule-body">
+            Help us keep the server fair. Report any bugs, glitches, or rule-breakers to staff instead of abusing them.
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

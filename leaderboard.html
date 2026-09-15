@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboards — DonutSMP</title>
+  <meta name="description" content="DonutSMP leaderboards. Top players by money, kills, playtime, shards, and more.">
+  <link rel="icon" type="image/webp" href="donut.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="liquid-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="brand-block">
+
+      <a href="index.html" class="brand">
+        <img src="donut.webp" alt="" class="brand-icon">
+        <span class="brand-name">DonutSMP</span>
+      </a>
+
+      <div class="brand-server">
+        <button type="button" class="copy-trigger copyable" data-copy="donutsmp.net" aria-label="Copy server address">
+          <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+
+        <button type="button" class="server-address copyable" data-copy="donutsmp.net">
+          <span>donutsmp.net</span>
+        </button>
+
+        <button type="button" class="server-port copyable" data-copy="port:19132">
+          <span>port:19132</span>
+        </button>
+      </div>
+
+      <div class="player-status" aria-live="polite">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <span class="status-label">Players online</span>
+        <span class="status-count" id="playerCount">—</span>
+      </div>
+
+      <nav class="main-nav liquid-glass" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="rules.html" class="nav-link">Rules &amp; Policies</a></li>
+          <li><a href="store.html" class="nav-link">Store</a></li>
+          <li><a href="leaderboard.html" class="nav-link" aria-current="page">Leaderboards</a></li>
+          <li><a href="https://www.youtube.com/watch?v=mPbVIS5wL6A" class="nav-link" target="_blank" rel="noopener noreferrer">How to Join</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="site-main">
+
+    <section class="leaderboard" aria-labelledby="lb-heading">
+      <h2 id="lb-heading">Leaderboards</h2>
+
+      <div class="lb-tabs">
+        <button class="chip active" data-type="money">Money</button>
+        <button class="chip" data-type="kills">Kills</button>
+        <button class="chip" data-type="deaths">Deaths</button>
+        <button class="chip" data-type="playtime">Playtime</button>
+        <button class="chip" data-type="shards">Shards</button>
+        <button class="chip" data-type="brokenblocks">Blocks Broken</button>
+        <button class="chip" data-type="placedblocks">Blocks Placed</button>
+        <button class="chip" data-type="mobskilled">Mobs Killed</button>
+      </div>
+
+      <div class="lb-table liquid-glass">
+        <div class="lb-head-row">
+          <span>#</span>
+          <span>Player</span>
+          <span class="lb-value">Value</span>
+        </div>
+        <div id="lbRows">
+          <div class="lb-row"><span class="lb-rank">—</span><span class="lb-name">Loading…</span><span class="lb-value">—</span></div>
+        </div>
+      </div>
+
+      <div class="lb-pagination">
+        <button class="btn btn-ghost" id="lbPrev">Prev</button>
+        <span id="lbPage">Page 1</span>
+        <button class="btn btn-ghost" id="lbNext">Next</button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

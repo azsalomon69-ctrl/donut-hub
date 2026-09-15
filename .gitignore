@@ -1,0 +1,48 @@
+# ---- OS junk ----
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ---- Editor / IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# ---- Node / npm (for later if you add a backend) ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+yarn.lock
+
+# ---- Environment / secrets ----
+.env
+.env.local
+.env.*.local
+
+# ---- Build output ----
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Misc ----
+.tmp/
+temp/
+*.bak

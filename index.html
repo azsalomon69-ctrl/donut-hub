@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DonutSMP</title>
+  <meta name="description" content="DonutSMP — a Minecraft survival multiplayer server. Join at donutsmp.net port 19132.">
+  <link rel="icon" type="image/webp" href="donut.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="liquid-bg" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="brand-block">
+
+      <a href="index.html" class="brand">
+        <img src="donut.webp" alt="" class="brand-icon">
+        <span class="brand-name">DonutSMP</span>
+      </a>
+
+      <div class="brand-server">
+        <button type="button" class="copy-trigger copyable" data-copy="donutsmp.net" aria-label="Copy server address">
+          <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+
+        <button type="button" class="server-address copyable" data-copy="donutsmp.net">
+          <span>donutsmp.net</span>
+        </button>
+
+        <button type="button" class="server-port copyable" data-copy="port:19132">
+          <span>port:19132</span>
+        </button>
+      </div>
+
+      <div class="player-status" aria-live="polite">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <span class="status-label">Players online</span>
+        <span class="status-count" id="playerCount">—</span>
+      </div>
+
+      <nav class="main-nav liquid-glass" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html" class="nav-link" aria-current="page">Home</a></li>
+          <li><a href="rules.html" class="nav-link">Rules &amp; Policies</a></li>
+          <li><a href="store.html" class="nav-link">Store</a></li>
+          <li><a href="leaderboard.html" class="nav-link">Leaderboards</a></li>
+          <li><a href="https://www.youtube.com/watch?v=mPbVIS5wL6A" class="nav-link" target="_blank" rel="noopener noreferrer">How to Join</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="site-main">
+
+    <section class="blog" aria-labelledby="blog-heading">
+      <h2 id="blog-heading">Latest Posts</h2>
+
+      <div class="blog-carousel">
+
+        <button type="button" class="carousel-arrow carousel-prev" aria-label="Previous post">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="blog-wheel">
+
+          <article class="blog-card liquid-glass">
+            <img src="blog1.webp" alt="DonutSMP Asia servers" class="blog-image">
+            <div class="blog-body">
+              <h3 class="blog-title">Introducing... DonutSMP in Asia!</h3>
+              <p class="blog-excerpt">By connecting to donutsmp.net, you can connect to our Asian servers. So if you live in Asia, you should definitely get better ping. @Update Pings @News Pings @AS Parts of the overworld are in Asia, and you can duel other players in Asia too. Now we have NA West, NA East, Europe, and Asia 🙂 I'm pretty sure we're the first server to have multiple regions that all sync with 1 IP.</p>
+              <button class="blog-toggle" type="button" aria-expanded="false">Show more</button>
+            </div>
+          </article>
+
+          <article class="blog-card liquid-glass">
+            <img src="blog2.webp" alt="DonutSMP Halloween update" class="blog-image">
+            <div class="blog-body">
+              <h3 class="blog-title">🎃 Halloween Update</h3>
+              <p class="blog-excerpt">We added a few things for Halloween 🙂 @Update Pings • Spooky Spawn • 3x Pumpkin Sell Price • Mobs can spawn with pumpkins • Mobs with pumpkins drop iron, coal, and diamonds • Spooky music at spawn if you use voice chat • Bats at spawn and if you kill them, you get money Thank you for playing 🧙🎃🕯️</p>
+              <button class="blog-toggle" type="button" aria-expanded="false">Show more</button>
+            </div>
+          </article>
+
+          <article class="blog-card liquid-glass">
+            <img src="blog3.webp" alt="DonutSMP Christmas update" class="blog-image">
+            <div class="blog-body">
+              <h3 class="blog-title">🎄 Christmas Update</h3>
+              <p class="blog-excerpt">A small update for the winter holidays @Update Pings New Spawn 5x Firework Sell Price Advent calendar at spawn (new item for every player everyday) Christmas songs at spawn if you use voicechat Potentially more coming soon</p>
+              <button class="blog-toggle" type="button" aria-expanded="false">Show more</button>
+            </div>
+          </article>
+
+        </div>
+
+        <button type="button" class="carousel-arrow carousel-next" aria-label="Next post">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+      </div>
+
+      <div class="carousel-dots" role="tablist" aria-label="Blog navigation">
+        <button type="button" class="carousel-dot is-active" aria-label="Post 1"></button>
+        <button type="button" class="carousel-dot" aria-label="Post 2"></button>
+        <button type="button" class="carousel-dot" aria-label="Post 3"></button>
+      </div>
+
+    </section>
+
+    <section class="community" aria-labelledby="community-heading">
+      <h2 id="community-heading">Community</h2>
+
+      <aside class="discord-widget" id="discordWidget">
+        <div class="discord-card">
+          <div class="discord-icon">
+            <img src="donut.webp" alt="" class="discord-icon-img">
+          </div>
+          <div class="discord-name">Loading Discord…</div>
+        </div>
+      </aside>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
