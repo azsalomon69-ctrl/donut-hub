@@ -117,17 +117,106 @@ document.querySelectorAll(".blog-card").forEach((card) => {
 })();
 
 /* =========================================================
-   3. COPY-TO-CLIPBOARD
+   3. COPY-TO-CLIPBOARD + ACHIEVEMENT TOAST
    ========================================================= */
+
+/* --- Achievements --- */
+function showAchievement({ title, description, icon = "📋" }) {
+  const el = document.createElement("div");
+  el.className = "mc-achievement";
+
+  const iconEl = document.createElement("div");
+  iconEl.className = "mc-achievement-icon";
+  iconEl.textContent = icon;
+
+  const body = document.createElement("div");
+  body.className = "mc-achievement-body";
+
+  const titleEl = document.createElement("div");
+  titleEl.className = "mc-achievement-title";
+  titleEl.textContent = title;
+
+  const descEl = document.createElement("div");
+  descEl.className = "mc-achievement-desc";
+  descEl.textContent = description;
+
+  body.appendChild(titleEl);
+  body.appendChild(descEl);
+  el.appendChild(iconEl);
+  el.appendChild(body);
+
+  document.body.appendChild(el);
+
+  // Trigger slide-in on next frame
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => el.classList.add("show"));
+  });
+
+  // Slide out after 3.2s, remove after animation finishes
+  setTimeout(() => {
+    el.classList.remove("show");
+    setTimeout(() => el.remove(), 700);
+  }, 3200);
+}
+
+/* --- Ding sound (Web Audio, no file needed) --- */
+let _audioCtx = null;
+function playDingSound() {
+  try {
+    if (!_audioCtx) {
+      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const ctx = _audioCtx;
+    const now = ctx.currentTime;
+
+    // Two bell-like notes: B5 + E6
+    const notes = [
+      { freq: 987.77, start: 0,    dur: 0.9, gain: 0.12 },
+      { freq: 1318.51, start: 0.08, dur: 0.9, gain: 0.10 },
+    ];
+
+    notes.forEach(({ freq, start, dur, gain }) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+
+      g.gain.setValueAtTime(0.0001, now + start);
+      g.gain.exponentialRampToValueAtTime(gain, now + start + 0.01);
+      g.gain.exponentialRampToValueAtTime(0.0001, now + start + dur);
+
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now + start);
+      osc.stop(now + start + dur + 0.05);
+    });
+  } catch {}
+}
+
+/* --- Copy handler --- */
 document.querySelectorAll(".copyable").forEach((el) => {
   el.addEventListener("click", async () => {
     const value = el.dataset.copy;
     if (!value) return;
+
     try {
       await navigator.clipboard.writeText(value);
       el.classList.add("copied");
       setTimeout(() => el.classList.remove("copied"), 1200);
-    } catch {}
+
+      const isPort = value.startsWith("port:");
+      const label = isPort ? "Port" : "Server Address";
+
+      showAchievement({
+        title: "Achievement Get!",
+        description: `Copied ${label}: ${value.replace("port:", "")}`,
+        icon: isPort ? "🔌" : "📋",
+      });
+
+      playDingSound();
+    } catch {
+      /* clipboard blocked */
+    }
   });
 });
 
