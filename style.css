@@ -30,22 +30,12 @@ body {
   font-family: var(--font-body);
   color: var(--text);
   background: var(--bg);
-}
-
-/* =========================================================
-   PAGE LOAD — body fade in
-   ========================================================= */
-body {
   animation: page-fade-in 0.28s ease-out both;
 }
 
 @keyframes page-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body { animation: none; }
 }
 
 /* =========================================================
@@ -62,7 +52,8 @@ button,
 .carousel-arrow,
 .carousel-dot,
 .blog-toggle,
-.rule summary {
+.rule summary,
+.faq-item summary {
   cursor: url("crystal.png") 16 16, pointer;
 }
 
@@ -363,9 +354,7 @@ textarea {
   font-variant-numeric: tabular-nums;
 }
 
-/* =========================================================
-   PLAYER STATUS — skeleton shimmer while loading
-   ========================================================= */
+/* ---------- PLAYER STATUS — loading + timestamp ---------- */
 .player-status .status-count {
   transition: opacity 0.3s ease;
 }
@@ -396,19 +385,6 @@ textarea {
   100% { background-position: -200% 0; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .player-status.is-loading .status-count {
-    animation: none;
-    background: none;
-    color: var(--muted);
-    -webkit-text-fill-color: var(--muted);
-    opacity: 0.5;
-  }
-}
-
-/* =========================================================
-   PLAYER STATUS — last updated timestamp
-   ========================================================= */
 .player-updated {
   display: block;
   text-align: center;
@@ -422,19 +398,11 @@ textarea {
   transition: opacity 0.4s ease;
 }
 
-.player-updated:empty {
-  opacity: 0;
-}
+.player-updated:empty { opacity: 0; }
 
 .player-updated.is-stale {
   color: #f87171;
   opacity: 0.8;
-}
-
-@media (max-width: 780px) {
-  .player-updated {
-    font-size: 10px;
-  }
 }
 
 /* =========================================================
@@ -736,6 +704,93 @@ textarea {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+
+/* =========================================================
+   SERVER INFO CARD
+   ========================================================= */
+.server-info {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.server-info h2 {
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  margin: 0;
+  color: var(--text);
+  text-align: center;
+  text-shadow:
+    0 0 16px rgba(96, 165, 250, 0.35),
+    2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.server-info-card {
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 6px 22px;
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.server-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.server-info-row:last-child { border-bottom: none; }
+
+.server-info-label {
+  font-family: var(--font-nav);
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  flex: 0 0 auto;
+}
+
+.server-info-value {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+  text-align: right;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.server-info-value.is-loading {
+  background: linear-gradient(
+    90deg,
+    rgba(154, 154, 168, 0.4) 0%,
+    rgba(230, 236, 245, 0.95) 50%,
+    rgba(154, 154, 168, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.server-info-motd {
+  font-style: italic;
+  color: var(--donut);
+  text-shadow: 0 0 8px rgba(96, 165, 250, 0.35);
 }
 
 /* =========================================================
@@ -1081,7 +1136,7 @@ textarea {
   margin-left: 2px;
 }
 
-/* ---------- STORE LINKS (cards as anchors) ---------- */
+/* ---------- STORE LINKS ---------- */
 .rank-card,
 .shard-card {
   text-decoration: none;
@@ -1495,11 +1550,10 @@ textarea {
   color: var(--text);
   margin: 32px 0 14px;
   text-shadow: 0 0 12px rgba(96, 165, 250, 0.30);
+  text-align: center;
 }
 
-.faq-section:first-of-type {
-  margin-top: 0;
-}
+.faq-section:first-of-type { margin-top: 0; }
 
 .faq-list {
   display: flex;
@@ -1551,9 +1605,7 @@ textarea {
   line-height: 1.5;
 }
 
-.faq-item[open] .faq-question {
-  color: var(--donut);
-}
+.faq-item[open] .faq-question { color: var(--donut); }
 
 .faq-answer {
   padding: 0 20px 18px;
@@ -1590,15 +1642,6 @@ textarea {
   border: 1px solid rgba(96, 165, 250, 0.20);
 }
 
-@media (max-width: 780px) {
-  .faq h2 { font-size: 13px; }
-  .faq-tagline { font-size: 13px; margin-bottom: 24px; }
-  .faq-section { font-size: 11px; margin: 24px 0 12px; }
-  .faq-item summary { padding: 14px 16px; }
-  .faq-question { font-size: 13.5px; }
-  .faq-answer { padding: 0 16px 16px; font-size: 13.5px; }
-}
-
 /* =========================================================
    404 ERROR PAGE
    ========================================================= */
@@ -1620,7 +1663,6 @@ textarea {
   width: 100%;
 }
 
-/* --- Broken block illustration --- */
 .error-block {
   width: 90px;
   height: 90px;
@@ -1660,7 +1702,6 @@ textarea {
   50%      { transform: translateY(-6px) rotate(-2deg); }
 }
 
-/* --- Big 404 number --- */
 .error-code {
   font-family: var(--font-pixel);
   font-size: 68px;
@@ -1673,7 +1714,6 @@ textarea {
     4px 4px 0 rgba(0, 0, 0, 0.65);
 }
 
-/* --- Title --- */
 .error-title {
   font-family: var(--font-pixel);
   font-size: 16px;
@@ -1685,7 +1725,6 @@ textarea {
     2px 2px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* --- Description --- */
 .error-desc {
   font-family: var(--font-body);
   font-size: 15px;
@@ -1695,7 +1734,6 @@ textarea {
   max-width: 460px;
 }
 
-/* --- Actions --- */
 .error-actions {
   display: flex;
   gap: 12px;
@@ -1743,7 +1781,6 @@ textarea {
   border-color: rgba(96, 165, 250, 0.30);
 }
 
-/* --- Hint --- */
 .error-hint {
   font-family: var(--font-body);
   font-size: 12.5px;
@@ -1762,27 +1799,6 @@ textarea {
 .error-hint a:hover {
   color: var(--text);
   border-color: var(--donut);
-}
-
-/* --- Responsive --- */
-@media (max-width: 780px) {
-  .error-page {
-    min-height: auto;
-    padding: 40px 0 20px;
-  }
-
-  .error-block {
-    width: 72px;
-    height: 72px;
-  }
-
-  .error-block-icon { font-size: 28px; }
-
-  .error-code { font-size: 48px; letter-spacing: 3px; }
-  .error-title { font-size: 13px; }
-  .error-desc { font-size: 14px; }
-  .error-btn { padding: 10px 18px; font-size: 12.5px; }
-  .error-hint { font-size: 11.5px; }
 }
 
 /* =========================================================
@@ -1908,31 +1924,6 @@ textarea {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-@media (max-width: 480px) {
-  .mc-achievement {
-    top: 14px;
-    right: 14px;
-    left: 14px;
-    min-width: 0;
-    max-width: none;
-    padding: 10px 14px 10px 10px;
-  }
-
-  .mc-achievement-icon {
-    width: 38px;
-    height: 38px;
-    font-size: 20px;
-  }
-
-  .mc-achievement-title {
-    font-size: 9px;
-  }
-
-  .mc-achievement-desc {
-    font-size: 11.5px;
-  }
 }
 
 /* =========================================================
@@ -2135,6 +2126,7 @@ textarea {
   .copy-trigger .copy-icon { width: 12px; height: 12px; }
 
   .player-status { font-size: 11.5px; padding: 5px 12px; }
+  .player-updated { font-size: 10px; }
 
   .main-nav { padding: 5px; }
   .main-nav ul { flex-wrap: wrap; justify-content: center; }
@@ -2171,6 +2163,24 @@ textarea {
   .blog-title { font-size: 10.5px; }
   .blog-excerpt { font-size: 13px; }
   .blog-body { padding: 14px 18px 16px; }
+
+  .server-info {
+    margin-top: 45px;
+  }
+
+  .server-info h2 { font-size: 12px; }
+
+  .server-info-card {
+    padding: 4px 16px;
+  }
+
+  .server-info-row {
+    padding: 12px 0;
+    gap: 10px;
+  }
+
+  .server-info-label { font-size: 11px; }
+  .server-info-value { font-size: 13px; }
 
   .rules-list {
     grid-template-columns: repeat(2, 1fr);
@@ -2217,6 +2227,31 @@ textarea {
 
   .terms h2 { font-size: 13px; }
 
+  .faq h2 { font-size: 13px; }
+  .faq-tagline { font-size: 13px; margin-bottom: 24px; }
+  .faq-section { font-size: 11px; margin: 24px 0 12px; }
+  .faq-item summary { padding: 14px 16px; }
+  .faq-question { font-size: 13.5px; }
+  .faq-answer { padding: 0 16px 16px; font-size: 13.5px; }
+
+  .error-page {
+    min-height: auto;
+    padding: 40px 0 20px;
+  }
+
+  .error-block {
+    width: 72px;
+    height: 72px;
+  }
+
+  .error-block-icon { font-size: 28px; }
+
+  .error-code { font-size: 48px; letter-spacing: 3px; }
+  .error-title { font-size: 13px; }
+  .error-desc { font-size: 14px; }
+  .error-btn { padding: 10px 18px; font-size: 12.5px; }
+  .error-hint { font-size: 11.5px; }
+
   .site-footer {
     padding: 16px 14px;
     margin-top: 60px;
@@ -2233,6 +2268,24 @@ textarea {
     text-align: center;
     margin-bottom: 6px;
   }
+
+  .mc-achievement {
+    top: 14px;
+    right: 14px;
+    left: 14px;
+    min-width: 0;
+    max-width: none;
+    padding: 10px 14px 10px 10px;
+  }
+
+  .mc-achievement-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .mc-achievement-title { font-size: 9px; }
+  .mc-achievement-desc { font-size: 11.5px; }
 }
 
 @media (max-width: 560px) {
@@ -2261,8 +2314,17 @@ textarea {
    REDUCED MOTION
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
+  body { animation: none; }
   .brand-icon { animation: none; }
   .blog-card, .nav-link { transition: none; }
   .mc-puff { animation-duration: 0.01s; }
   .sparkle { animation-duration: 0.01s; }
+  .error-block { animation: none; }
+  .player-status.is-loading .status-count {
+    animation: none;
+    background: none;
+    color: var(--muted);
+    -webkit-text-fill-color: var(--muted);
+    opacity: 0.5;
+  }
 }

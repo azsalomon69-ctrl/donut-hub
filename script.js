@@ -221,7 +221,9 @@ document.querySelectorAll(".copyable").forEach((el) => {
 });
 
 /* =========================================================
-   4. PLAYER COUNT — from build.js (refreshed hourly by CI)
+   4. PLAYER COUNT + SERVER INFO — from build.js
+   All values are baked into the HTML by build.js at deploy
+   time. The client just marks things as loaded.
    ========================================================= */
 (function initPlayerCount() {
   const el = document.getElementById("playerCount");
@@ -234,6 +236,10 @@ document.querySelectorAll(".copyable").forEach((el) => {
   const hasNumber = /\d/.test(text) && !text.startsWith("25,000+");
   if (hasNumber && dot) dot.classList.add("online");
 
+  // Remove loading shimmer from server info rows
+  document.querySelectorAll(".server-info-value.is-loading")
+    .forEach((n) => n.classList.remove("is-loading"));
+
   // Show "Updated Xh ago" from build time
   const built = document.body.dataset.built;
   if (!built || !updatedEl) return;
@@ -245,7 +251,7 @@ document.querySelectorAll(".copyable").forEach((el) => {
     else if (age < 3600) label = `Updated ${Math.floor(age / 60)}m ago`;
     else label = `Updated ${Math.floor(age / 3600)}h ago`;
     updatedEl.textContent = label;
-    updatedEl.classList.toggle("is-stale", age > 7200); // red after 2h
+    updatedEl.classList.toggle("is-stale", age > 7200);
   }
 
   tick();

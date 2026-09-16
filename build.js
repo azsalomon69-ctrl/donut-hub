@@ -1,20 +1,37 @@
 // build.js
 import fs from "fs/promises";
 
-async function getPlayerCount() {
+/* ---------------------------------------------------------
+   Fetch server data (server-side, no CORS, direct hits)
+   --------------------------------------------------------- */
+async function getServerData() {
+  let playerText = "25,000+ / 50,000";
+  let version = "Velocity 1.7.2-26.2";
+  let motd = "DonutSMP.net ѕᴜʀᴠɪᴠᴀʟ";
+
   try {
     const res = await fetch(
       "https://api.mcstatus.io/v2/status/java/donutsmp.net"
     );
     const data = await res.json();
+
     if (data.online && data.players) {
-      console.log("  ✓ mcstatus.io returned", data.players.online);
-      return `${data.players.online.toLocaleString()} / ${data.players.max.toLocaleString()}`;
+      playerText = `${data.players.online.toLocaleString()} / ${data.players.max.toLocaleString()}`;
+      console.log("  ✓ mcstatus.io players:", data.players.online);
+    }
+    if (data.version?.name_clean) {
+      version = data.version.name_clean;
+      console.log("  ✓ mcstatus.io version:", version);
+    }
+    if (data.motd?.clean) {
+      motd = data.motd.clean.replace(/\n/g, " ").trim();
+      console.log("  ✓ mcstatus.io motd:", motd);
     }
   } catch (err) {
     console.log("  ✗ mcstatus.io failed:", err.message);
   }
-  return "25,000+ / 50,000";
+
+  return { playerText, version, motd };
 }
 
 async function getDiscord() {
@@ -36,19 +53,19 @@ async function getDiscord() {
 }
 
 async function build() {
-  console.log("→ Fetching player count...");
-  const playerText = await getPlayerCount();
+  console.log("→ Fetching server data...");
+  const { playerText, version, motd } = await getServerData();
 
   console.log("→ Fetching Discord stats...");
   const discord = await getDiscord();
   const discordText = `${discord.online.toLocaleString()} online • ${discord.members.toLocaleString()} members`;
 
-  // ISO string of the build time for the "last updated" display
   const buildTime = new Date().toISOString();
 
   console.log("→ Final player count:", playerText);
+  console.log("→ Final version:", version);
+  console.log("→ Final MOTD:", motd);
   console.log("→ Final Discord:", discordText);
-  console.log("→ Build time:", buildTime);
 
   const files = ["index.html", "rules.html", "store.html", "faq.html", "terms.html", "404.html"];
 
@@ -56,20 +73,28 @@ async function build() {
     try {
       let html = await fs.readFile(file, "utf8");
 
-      // Player count
+      // Player count in the header pill
       html = html.replace(
         /<span class="status-count" id="playerCount">[^<]*<\/span>/g,
         `<span class="status-count" id="playerCount">${playerText}</span>`
       );
 
-      // Build timestamp attribute on body (for client-side "updated Xh ago")
-      html = html.replace(
-        /<body(\s[^>]*)?>/,
-        `<body$1 data-built="${buildTime}">`
-      );
-
-      // Discord counts (index only)
+      // Server info card (index only)
       if (file === "index.html") {
+        html = html.replace(
+          /<span class="server-info-value" id="infoVersion">[^<]*<\/span>/,
+          `<span class="server-info-value" id="infoVersion">${version}</span>`
+        );
+        html = html.replace(
+          /<span class="server-info-value" id="infoPlayers">[^<]*<\/span>/,
+          `<span class="server-info-value" id="infoPlayers">${playerText}</span>`
+        );
+        html = html.replace(
+          /<span class="server-info-value server-info-motd" id="infoMotd">[^<]*<\/span>/,
+          `<span class="server-info-value server-info-motd" id="infoMotd">${motd}</span>`
+        );
+
+        // Discord counts
         html = html.replace(
           /<div class="discord-count">[\s\S]*?<\/div>/,
           `<div class="discord-count">
@@ -78,6 +103,12 @@ async function build() {
               </div>`
         );
       }
+
+      // Build timestamp on body
+      html = html.replace(
+        /<body(\s[^>]*)?>/,
+        `<body$1 data-built="${buildTime}">`
+      );
 
       await fs.writeFile(file, html);
       console.log(`✓ Updated ${file}`);

@@ -8,16 +8,13 @@
   <link rel="canonical" href="https://donut-hub.onrender.com/">
   <link rel="icon" type="image/webp" href="donut.webp">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="DonutSMP Hub">
   <meta property="og:title" content="DonutSMP — Live Player Count, Rules, Store & Community">
-  <meta name="msvalidate.01" content="2E4EAC0770C04588F2AC8100C50AF120" />
   <meta property="og:description" content="Companion site for the DonutSMP Minecraft server. Live player count, rules, store, community leaderboards, and Discord.">
   <meta property="og:url" content="https://donut-hub.onrender.com/">
   <meta property="og:image" content="https://donut-hub.onrender.com/donut.webp">
 
-  <!-- Twitter / X -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="DonutSMP — Live Player Count, Rules, Store & Community">
   <meta name="twitter:description" content="Companion site for the DonutSMP Minecraft server. Live player count, rules, store, community leaderboards, and Discord.">
@@ -27,6 +24,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -103,8 +101,8 @@
         <span class="status-dot" id="statusDot" aria-hidden="true"></span>
         <span class="status-label">Players online</span>
         <span class="status-count" id="playerCount">25,000+ / 50,000</span>
-        <span class="player-updated" id="playerUpdated" aria-live="polite"></span>
       </div>
+      <span class="player-updated" id="playerUpdated" aria-live="polite"></span>
 
       <nav class="main-nav liquid-glass" aria-label="Main navigation">
         <ul>
@@ -190,6 +188,39 @@
         <button type="button" class="carousel-dot" aria-label="Post 3"></button>
       </div>
 
+    </section>
+
+    <section class="server-info" aria-labelledby="server-info-heading">
+      <h2 id="server-info-heading">Server Info</h2>
+
+      <div class="server-info-card">
+
+        <div class="server-info-row">
+          <span class="server-info-label">Version</span>
+          <span class="server-info-value" id="infoVersion">Velocity 1.7.2-26.2</span>
+        </div>
+
+        <div class="server-info-row">
+          <span class="server-info-label">Players</span>
+          <span class="server-info-value" id="infoPlayers">25,000+ / 50,000</span>
+        </div>
+
+        <div class="server-info-row">
+          <span class="server-info-label">Edition</span>
+          <span class="server-info-value">Java + Bedrock</span>
+        </div>
+
+        <div class="server-info-row">
+          <span class="server-info-label">MOTD</span>
+          <span class="server-info-value server-info-motd" id="infoMotd">DonutSMP.net ѕᴜʀᴠɪᴠᴀʟ</span>
+        </div>
+
+        <div class="server-info-row">
+          <span class="server-info-label">Proxies</span>
+          <span class="server-info-value">6 regions (NA, EU, Asia, Oceania)</span>
+        </div>
+
+      </div>
     </section>
 
     <section class="community" aria-labelledby="community-heading">
