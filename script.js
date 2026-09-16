@@ -2,26 +2,23 @@
    DonutSMP — script.js
    ========================================================= */
 
-/* =========================================================
-   0. SESSION FLAG — read once so multiple blocks can use it
-   ========================================================= */
 const CAME_FROM_NAV = sessionStorage.getItem("dnav") === "1";
 if (CAME_FROM_NAV) sessionStorage.removeItem("dnav");
-
 
 /* =========================================================
    HELPER — fetch through CORS proxies with fallback
    ========================================================= */
 async function proxyFetch(url) {
+  const encoded = encodeURIComponent(url);
   const wrappers = [
-    (u) => "https://corsproxy.io/?url=" + encodeURIComponent(u),
-    (u) => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
-    (u) => "https://thingproxy.freeboard.io/fetch/" + u,
+    (u) => "https://api.allorigins.win/raw?url=" + u,
+    (u) => "https://api.codetabs.com/v1/proxy/?quest=" + u,
+    (u) => "https://corsfix.com/" + u,
   ];
 
   for (const wrap of wrappers) {
     try {
-      const res = await fetch(wrap(url));
+      const res = await fetch(wrap(encoded));
       if (!res.ok) continue;
       const data = await res.json();
       if (data && typeof data === "object") return data;
@@ -36,7 +33,6 @@ async function proxyFetch(url) {
     return null;
   }
 }
-
 
 /* =========================================================
    1. BLOG "SHOW MORE / LESS" TOGGLE
@@ -76,7 +72,6 @@ document.querySelectorAll(".blog-card").forEach((card) => {
     }
   });
 });
-
 
 /* =========================================================
    2. BLOG CAROUSEL (wheel)
@@ -122,7 +117,6 @@ document.querySelectorAll(".blog-card").forEach((card) => {
   applyPositions();
 })();
 
-
 /* =========================================================
    3. COPY-TO-CLIPBOARD
    ========================================================= */
@@ -134,12 +128,9 @@ document.querySelectorAll(".copyable").forEach((el) => {
       await navigator.clipboard.writeText(value);
       el.classList.add("copied");
       setTimeout(() => el.classList.remove("copied"), 1200);
-    } catch {
-      /* silent fail */
-    }
+    } catch {}
   });
 });
-
 
 /* =========================================================
    4. LIVE PLAYER COUNT — mcstatus.io via CORS proxy
@@ -174,7 +165,6 @@ document.querySelectorAll(".copyable").forEach((el) => {
   setInterval(loadPlayerCount, 60000);
 })();
 
-
 /* =========================================================
    5. TELEPORT SOUND on page load (nav arrivals only)
    ========================================================= */
@@ -195,7 +185,6 @@ document.querySelectorAll(".copyable").forEach((el) => {
     });
   });
 })();
-
 
 /* =========================================================
    6. MINECRAFT-STYLE EXPLOSION on click (interactive only) + sound
@@ -268,10 +257,8 @@ document.querySelectorAll(".copyable").forEach((el) => {
   });
 })();
 
-
 /* =========================================================
    7. PAGE LOAD — purple particle vignette pop, sway, fall, fade
-   Only on nav arrivals. Slow, smooth ashes-style drift.
    ========================================================= */
 (function initSparkles() {
   if (!CAME_FROM_NAV) return;
@@ -324,7 +311,6 @@ document.querySelectorAll(".copyable").forEach((el) => {
     window.addEventListener("load", () => setTimeout(spawnSparkles, 60));
   }
 })();
-
 
 /* =========================================================
    8. DISCORD WIDGET — Donut SMP via CORS proxy
