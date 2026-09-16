@@ -222,15 +222,37 @@ document.querySelectorAll(".copyable").forEach((el) => {
 
 /* =========================================================
    4. LIVE PLAYER COUNT — Minecraft ServerHub (CORS-friendly)
-   Shows a shimmer skeleton while loading, then the real number.
+   With shimmer skeleton and "Updated Xs ago" timestamp.
    ========================================================= */
 (function initPlayerCount() {
   const el = document.getElementById("playerCount");
   const dot = document.getElementById("statusDot");
   const pill = el?.closest(".player-status");
+  const updatedEl = document.getElementById("playerUpdated");
   if (!el) return;
 
   const API = "https://minecraft-serverhub.com/api/ping?host=donutsmp.net&port=25565&platform=java";
+
+  let lastFetchOk = 0;
+
+  function formatAgo(seconds) {
+    if (seconds < 5) return "Updated just now";
+    if (seconds < 60) return `Updated ${seconds}s ago`;
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return s > 0 ? `Updated ${m}m ${s}s ago` : `Updated ${m}m ago`;
+  }
+
+  function tick() {
+    if (!updatedEl) return;
+    if (!lastFetchOk) {
+      updatedEl.textContent = "";
+      return;
+    }
+    const age = Math.floor((Date.now() - lastFetchOk) / 1000);
+    updatedEl.textContent = formatAgo(age);
+    updatedEl.classList.toggle("is-stale", age > 120);
+  }
 
   async function loadPlayerCount() {
     pill?.classList.add("is-loading");
@@ -254,6 +276,8 @@ document.querySelectorAll(".copyable").forEach((el) => {
         : online.toLocaleString();
 
       dot?.classList.add("online");
+      lastFetchOk = Date.now();
+      tick();
     } catch (err) {
       console.error("Player count fetch failed:", err);
       // Leave static fallback visible
@@ -264,6 +288,7 @@ document.querySelectorAll(".copyable").forEach((el) => {
 
   loadPlayerCount();
   setInterval(loadPlayerCount, 60000);
+  setInterval(tick, 1000);
 })();
 
 /* =========================================================
