@@ -221,74 +221,35 @@ document.querySelectorAll(".copyable").forEach((el) => {
 });
 
 /* =========================================================
-   4. LIVE PLAYER COUNT — Minecraft ServerHub (CORS-friendly)
-   With shimmer skeleton and "Updated Xs ago" timestamp.
+   4. PLAYER COUNT — from build.js (refreshed hourly by CI)
    ========================================================= */
 (function initPlayerCount() {
   const el = document.getElementById("playerCount");
   const dot = document.getElementById("statusDot");
-  const pill = el?.closest(".player-status");
   const updatedEl = document.getElementById("playerUpdated");
   if (!el) return;
 
-  const API = "https://minecraft-serverhub.com/api/ping?host=donutsmp.net&port=25565&platform=java";
+  // Mark online
+  const text = el.textContent.trim();
+  const hasNumber = /\d/.test(text) && !text.startsWith("25,000+");
+  if (hasNumber && dot) dot.classList.add("online");
 
-  let lastFetchOk = 0;
-
-  function formatAgo(seconds) {
-    if (seconds < 5) return "Updated just now";
-    if (seconds < 60) return `Updated ${seconds}s ago`;
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return s > 0 ? `Updated ${m}m ${s}s ago` : `Updated ${m}m ago`;
-  }
+  // Show "Updated Xh ago" from build time
+  const built = document.body.dataset.built;
+  if (!built || !updatedEl) return;
 
   function tick() {
-    if (!updatedEl) return;
-    if (!lastFetchOk) {
-      updatedEl.textContent = "";
-      return;
-    }
-    const age = Math.floor((Date.now() - lastFetchOk) / 1000);
-    updatedEl.textContent = formatAgo(age);
-    updatedEl.classList.toggle("is-stale", age > 120);
+    const age = Math.floor((Date.now() - new Date(built).getTime()) / 1000);
+    let label;
+    if (age < 60) label = `Updated ${age}s ago`;
+    else if (age < 3600) label = `Updated ${Math.floor(age / 60)}m ago`;
+    else label = `Updated ${Math.floor(age / 3600)}h ago`;
+    updatedEl.textContent = label;
+    updatedEl.classList.toggle("is-stale", age > 7200); // red after 2h
   }
 
-  async function loadPlayerCount() {
-    pill?.classList.add("is-loading");
-
-    try {
-      const res = await fetch(API);
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
-
-      if (!data.online) {
-        el.textContent = "Offline";
-        dot?.classList.remove("online");
-        return;
-      }
-
-      const online = data.players?.online ?? 0;
-      const max = data.players?.max ?? 0;
-
-      el.textContent = max
-        ? online.toLocaleString() + " / " + max.toLocaleString()
-        : online.toLocaleString();
-
-      dot?.classList.add("online");
-      lastFetchOk = Date.now();
-      tick();
-    } catch (err) {
-      console.error("Player count fetch failed:", err);
-      // Leave static fallback visible
-    } finally {
-      pill?.classList.remove("is-loading");
-    }
-  }
-
-  loadPlayerCount();
-  setInterval(loadPlayerCount, 60000);
-  setInterval(tick, 1000);
+  tick();
+  setInterval(tick, 30000);
 })();
 
 /* =========================================================
