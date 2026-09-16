@@ -2,78 +2,15 @@
    DonutSMP — script.js
    ========================================================= */
 
+/* =========================================================
+   0. SESSION FLAG — read once so multiple blocks can use it
+   ========================================================= */
 const CAME_FROM_NAV = sessionStorage.getItem("dnav") === "1";
 if (CAME_FROM_NAV) sessionStorage.removeItem("dnav");
 
-/* =========================================================
-   HELPER — fetch through CORS proxies with fallback
-   ========================================================= */
-async function proxyFetch(url) {
-  const encoded = encodeURIComponent(url);
-  const wrappers = [
-    (u) => "https://api.codetabs.com/v1/proxy/?quest=" + u,
-    (u) => "https://api.allorigins.win/raw?url=" + u,
-  ];
-
-  for (const wrap of wrappers) {
-    try {
-      const res = await fetch(wrap(encoded));
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data && typeof data === "object") return data;
-    } catch {}
-  }
-
-  // Last resort: direct fetch
-  try {
-    const res = await fetch(url);
-    return await res.json();
-  } catch {
-    return null;
-  }
-}
 
 /* =========================================================
-   1. BLOG "SHOW MORE / LESS" TOGGLE
-   ========================================================= */
-const PREVIEW_WORDS = 10;
-
-document.querySelectorAll(".blog-card").forEach((card) => {
-  const excerpt = card.querySelector(".blog-excerpt");
-  const toggle = card.querySelector(".blog-toggle");
-  if (!excerpt || !toggle) return;
-
-  const fullText = excerpt.textContent.replace(/\s+/g, " ").trim();
-  const words = fullText.split(" ");
-
-  if (words.length <= PREVIEW_WORDS) {
-    toggle.hidden = true;
-    excerpt.textContent = fullText;
-    return;
-  }
-
-  const previewText = words.slice(0, PREVIEW_WORDS).join(" ") + "…";
-
-  excerpt.textContent = previewText;
-  excerpt.classList.add("is-collapsed");
-
-  toggle.addEventListener("click", () => {
-    const collapsed = excerpt.classList.toggle("is-collapsed");
-
-    if (collapsed) {
-      excerpt.textContent = previewText;
-      toggle.textContent = "Show more";
-      toggle.setAttribute("aria-expanded", "false");
-    } else {
-      excerpt.textContent = fullText;
-      toggle.textContent = "Show less";
-      toggle.setAttribute("aria-expanded", "true");
-    }
-  });
-});
-
-/* =========================================================
-   2. BLOG CAROUSEL (wheel)
+   1. BLOG CAROUSEL (wheel)
    ========================================================= */
 (function initCarousel() {
   const wheel = document.querySelector(".blog-wheel");
@@ -116,8 +53,9 @@ document.querySelectorAll(".blog-card").forEach((card) => {
   applyPositions();
 })();
 
+
 /* =========================================================
-   3. COPY-TO-CLIPBOARD + ACHIEVEMENT TOAST
+   2. COPY-TO-CLIPBOARD + ACHIEVEMENT TOAST
    ========================================================= */
 
 /* --- Achievements --- */
@@ -147,12 +85,10 @@ function showAchievement({ title, description, icon = "📋" }) {
 
   document.body.appendChild(el);
 
-  // Trigger slide-in on next frame
   requestAnimationFrame(() => {
     requestAnimationFrame(() => el.classList.add("show"));
   });
 
-  // Slide out after 3.2s, remove after animation finishes
   setTimeout(() => {
     el.classList.remove("show");
     setTimeout(() => el.remove(), 700);
@@ -169,7 +105,6 @@ function playDingSound() {
     const ctx = _audioCtx;
     const now = ctx.currentTime;
 
-    // Two bell-like notes: B5 + E6
     const notes = [
       { freq: 987.77, start: 0,    dur: 0.9, gain: 0.12 },
       { freq: 1318.51, start: 0.08, dur: 0.9, gain: 0.10 },
@@ -214,14 +149,13 @@ document.querySelectorAll(".copyable").forEach((el) => {
       });
 
       playDingSound();
-    } catch {
-      /* clipboard blocked */
-    }
+    } catch {}
   });
 });
 
+
 /* =========================================================
-   4. PLAYER COUNT + SERVER INFO — from build.js
+   3. PLAYER COUNT + SERVER INFO — from build.js
    All values are baked into the HTML by build.js at deploy
    time. The client just marks things as loaded.
    ========================================================= */
@@ -258,8 +192,9 @@ document.querySelectorAll(".copyable").forEach((el) => {
   setInterval(tick, 30000);
 })();
 
+
 /* =========================================================
-   5. TELEPORT SOUND on page load (nav arrivals only)
+   4. TELEPORT SOUND on page load (nav arrivals only)
    ========================================================= */
 (function initTeleportSound() {
   if (CAME_FROM_NAV) {
@@ -279,8 +214,9 @@ document.querySelectorAll(".copyable").forEach((el) => {
   });
 })();
 
+
 /* =========================================================
-   6. MINECRAFT-STYLE EXPLOSION on click (interactive only) + sound
+   5. MINECRAFT-STYLE EXPLOSION on click (interactive only) + sound
    ========================================================= */
 (function initExplosion() {
   const explosionSound = new Audio("Explosion1.ogg");
@@ -300,7 +236,8 @@ document.querySelectorAll(".copyable").forEach((el) => {
     ".carousel-arrow",
     ".carousel-dot",
     ".blog-toggle",
-    ".rule summary"
+    ".rule summary",
+    ".faq-item summary"
   ].join(",");
 
   function spawnExplosion(x, y) {
@@ -350,8 +287,10 @@ document.querySelectorAll(".copyable").forEach((el) => {
   });
 })();
 
+
 /* =========================================================
-   7. PAGE LOAD — purple particle vignette pop, sway, fall, fade
+   6. PAGE LOAD — purple particle vignette pop, sway, fall, fade
+   Only on nav arrivals. Slow, smooth ashes-style drift.
    ========================================================= */
 (function initSparkles() {
   if (!CAME_FROM_NAV) return;
@@ -405,14 +344,13 @@ document.querySelectorAll(".copyable").forEach((el) => {
   }
 })();
 
+
 /* =========================================================
-   8. DISCORD WIDGET — static values from build.js
+   7. DISCORD WIDGET — static values from build.js
    The build script fetches real Discord stats server-side
    (no CORS) and injects them into the HTML on every deploy.
    ========================================================= */
 (function initDiscordWidget() {
-  // Nothing to fetch. The numbers are already baked in the HTML
-  // by build.js. If they're missing (build failed), show fallback.
   const el = document.getElementById("discordWidget");
   if (!el) return;
 
