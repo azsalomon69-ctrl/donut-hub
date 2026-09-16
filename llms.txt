@@ -1,0 +1,17 @@
+# DonutSMP Hub
+
+> Community companion site for the DonutSMP Minecraft server. Live player count, rules, store, leaderboards, and Discord community.
+
+## Main Pages
+- [Home](https://donut-hub.onrender.com/): Live player count, latest blog posts, community Discord, and server overview
+- [Rules & Policies](https://donut-hub.onrender.com/rules.html): All 25 DonutSMP server rules with plain English explanations
+- [Store](https://donut-hub.onrender.com/store.html): Donut+ ranks and Shards packages with direct checkout links
+- [Leaderboards](https://donutschematics.com/players/leaderboard): Community-run player leaderboard for DonutSMP
+
+## About DonutSMP
+DonutSMP is a Minecraft survival multiplayer server at donutsmp.net (port 19132) focused on base-hunting and Crystal PvP. It has six Overworld proxies: NA East, NA West, EU Central, EU West, Asia, and Oceania.
+
+## Contact
+- Discord: https://discord.com/invite/donutsmp
+- Support: https://support.donutsmp.net/
+- YouTube: https://www.youtube.com/DrDonutt
