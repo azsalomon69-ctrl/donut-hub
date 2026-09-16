@@ -400,62 +400,32 @@ document.querySelectorAll(".copyable").forEach((el) => {
 })();
 
 /* =========================================================
-   8. DISCORD WIDGET — Donut SMP via CORS proxy
+   8. DISCORD WIDGET — static values from build.js
+   The build script fetches real Discord stats server-side
+   (no CORS) and injects them into the HTML on every deploy.
    ========================================================= */
 (function initDiscordWidget() {
+  // Nothing to fetch. The numbers are already baked in the HTML
+  // by build.js. If they're missing (build failed), show fallback.
   const el = document.getElementById("discordWidget");
   if (!el) return;
 
-  const INVITE = "https://discord.com/invite/donutsmp";
-  const API = "https://discord.com/api/v9/invites/donutsmp?with_counts=true";
-
-  async function loadDiscord() {
-    const data = await proxyFetch(API);
-
-    if (!data || !data.guild) {
-      el.innerHTML = `
-        <div class="discord-card discord-error">
-          <div class="discord-top">
-            <div class="discord-icon">
-              <img src="donut.webp" alt="" class="discord-icon-img">
-            </div>
-            <div class="discord-info">
-              <div class="discord-name">Donut SMP Community</div>
-            </div>
-          </div>
-          <a href="${INVITE}" class="discord-join" target="_blank" rel="noopener noreferrer">
-            Join the Discord →
-          </a>
-        </div>
-      `;
-      return;
-    }
-
-    const online = data.approximate_presence_count ?? 0;
-    const total = data.approximate_member_count ?? 0;
-    const name = data.guild.name || "Donut SMP";
-
+  const count = el.querySelector(".discord-count");
+  if (!count || !/\d/.test(count.textContent)) {
     el.innerHTML = `
-      <div class="discord-card">
+      <div class="discord-card discord-error">
         <div class="discord-top">
           <div class="discord-icon">
             <img src="donut.webp" alt="" class="discord-icon-img">
           </div>
           <div class="discord-info">
-            <div class="discord-name">${name}</div>
-            <div class="discord-count">
-              <span class="discord-dot"></span>
-              ${online.toLocaleString()} online • ${total.toLocaleString()} members
-            </div>
+            <div class="discord-name">Donut SMP Community</div>
           </div>
         </div>
-        <a href="${INVITE}" class="discord-join" target="_blank" rel="noopener noreferrer">
+        <a href="https://discord.com/invite/donutsmp" class="discord-join" target="_blank" rel="noopener noreferrer">
           Join the Discord →
         </a>
       </div>
     `;
   }
-
-  loadDiscord();
-  setInterval(loadDiscord, 60000);
 })();
