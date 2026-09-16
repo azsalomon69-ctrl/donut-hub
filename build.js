@@ -2,21 +2,40 @@
 import fs from "fs/promises";
 
 /* ---------------------------------------------------------
-   Fetch live values from APIs (server-side, no CORS issues)
+   Fetch live values (server-side, no CORS, direct hits)
    --------------------------------------------------------- */
 async function getPlayerCount() {
+  // Try mcstatus.io first — most reliable, no key needed
+  try {
+    const res = await fetch(
+      "https://api.mcstatus.io/v2/status/java/donutsmp.net"
+    );
+    const data = await res.json();
+    if (data.online && data.players) {
+      console.log("  ✓ mcstatus.io returned", data.players.online);
+      return `${data.players.online.toLocaleString()} / ${data.players.max.toLocaleString()}`;
+    }
+    console.log("  ✗ mcstatus.io said offline");
+  } catch (err) {
+    console.log("  ✗ mcstatus.io failed:", err.message);
+  }
+
+  // Fallback: Minecraft ServerHub
   try {
     const res = await fetch(
       "https://minecraft-serverhub.com/api/ping?host=donutsmp.net&port=25565&platform=java"
     );
     const data = await res.json();
     if (data.online && data.players) {
+      console.log("  ✓ ServerHub returned", data.players.online);
       return `${data.players.online.toLocaleString()} / ${data.players.max.toLocaleString()}`;
     }
+    console.log("  ✗ ServerHub said offline");
   } catch (err) {
-    console.error("Player count fetch failed:", err.message);
+    console.log("  ✗ ServerHub failed:", err.message);
   }
-  return "25,000+ / 50,000"; // fallback
+
+  return "25,000+ / 50,000";
 }
 
 async function getDiscord() {
@@ -37,29 +56,27 @@ async function getDiscord() {
   return { online: 110000, members: 1000000 };
 }
 
-/* ---------------------------------------------------------
-   Inject values into HTML files
-   --------------------------------------------------------- */
 async function build() {
+  console.log("→ Fetching player count...");
   const playerText = await getPlayerCount();
+
+  console.log("→ Fetching Discord stats...");
   const discord = await getDiscord();
   const discordText = `${discord.online.toLocaleString()} online • ${discord.members.toLocaleString()} members`;
 
-  console.log("→ Player count:", playerText);
-  console.log("→ Discord:", discordText);
+  console.log("→ Final player count:", playerText);
+  console.log("→ Final Discord:", discordText);
 
   const files = ["index.html", "rules.html", "store.html"];
 
   for (const file of files) {
     let html = await fs.readFile(file, "utf8");
 
-    // Inject player count into the status pill
     html = html.replace(
       /<span class="status-count" id="playerCount">[^<]*<\/span>/g,
       `<span class="status-count" id="playerCount">${playerText}</span>`
     );
 
-    // Inject Discord counts (index only)
     if (file === "index.html") {
       html = html.replace(
         /<div class="discord-count">[\s\S]*?<\/div>/,
