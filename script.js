@@ -11,9 +11,8 @@ if (CAME_FROM_NAV) sessionStorage.removeItem("dnav");
 async function proxyFetch(url) {
   const encoded = encodeURIComponent(url);
   const wrappers = [
-    (u) => "https://api.allorigins.win/raw?url=" + u,
     (u) => "https://api.codetabs.com/v1/proxy/?quest=" + u,
-    (u) => "https://corsfix.com/" + u,
+    (u) => "https://api.allorigins.win/raw?url=" + u,
   ];
 
   for (const wrap of wrappers) {
