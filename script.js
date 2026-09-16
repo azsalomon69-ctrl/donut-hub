@@ -101,37 +101,15 @@ function showAchievement({ title, description, icon = "📋" }) {
   }, 3200);
 }
 
-/* --- Ding sound (Web Audio, no file needed) --- */
-let _audioCtx = null;
-function playDingSound() {
-  try {
-    if (!_audioCtx) {
-      _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    const ctx = _audioCtx;
-    const now = ctx.currentTime;
+/* --- Minecraft achievement sound --- */
+const achievementSound = new Audio("minecraft-rare-achievement.mp3");
+achievementSound.preload = "auto";
+achievementSound.volume = 0.6;
 
-    const notes = [
-      { freq: 987.77, start: 0,    dur: 0.9, gain: 0.12 },
-      { freq: 1318.51, start: 0.08, dur: 0.9, gain: 0.10 },
-    ];
-
-    notes.forEach(({ freq, start, dur, gain }) => {
-      const osc = ctx.createOscillator();
-      const g = ctx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-
-      g.gain.setValueAtTime(0.0001, now + start);
-      g.gain.exponentialRampToValueAtTime(gain, now + start + 0.01);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + start + dur);
-
-      osc.connect(g);
-      g.connect(ctx.destination);
-      osc.start(now + start);
-      osc.stop(now + start + dur + 0.05);
-    });
-  } catch {}
+function playAchievementSound() {
+  const s = achievementSound.cloneNode();
+  s.volume = achievementSound.volume;
+  s.play().catch(() => {});
 }
 
 /* --- Copy handler --- */
@@ -154,7 +132,7 @@ document.querySelectorAll(".copyable").forEach((el) => {
         icon: isPort ? "🔌" : "📋",
       });
 
-      playDingSound();
+      playAchievementSound();
     } catch {}
   });
 });
