@@ -20,6 +20,11 @@
 
 * { box-sizing: border-box; }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 20px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -354,7 +359,7 @@ textarea {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- PLAYER STATUS — loading + timestamp ---------- */
+/* ---------- LOADING + TIMESTAMP ---------- */
 .player-status .status-count {
   transition: opacity 0.3s ease;
 }
@@ -650,10 +655,9 @@ textarea {
   font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.65;
-  white-space: pre-line;
 }
 
-/* ---------- SHOW MORE BUTTON ---------- */
+/* ---------- READ MORE BUTTON ---------- */
 .blog-toggle {
   display: inline-flex;
   align-items: center;
@@ -669,28 +673,11 @@ textarea {
   font-size: 11.5px;
   letter-spacing: 0.4px;
   line-height: 1;
+  text-decoration: none;
   cursor: url("crystal.png") 16 16, pointer;
-  transition: opacity 0.3s ease, background 0.18s ease, border-color 0.18s ease;
+  transition: background 0.18s ease, border-color 0.18s ease;
   -webkit-appearance: none;
   appearance: none;
-}
-
-.blog-toggle::after {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg);
-  margin-left: 2px;
-  margin-top: -3px;
-  transition: transform 0.25s ease;
-}
-
-.blog-toggle[aria-expanded="true"]::after {
-  transform: rotate(-135deg);
-  margin-top: 3px;
 }
 
 .blog-toggle:hover {
@@ -699,17 +686,13 @@ textarea {
   text-decoration: none;
 }
 
-.blog-toggle[hidden] { display: none; }
-
 .blog-card:not([data-position="front"]) .blog-toggle {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-/* =========================================================
-   BLOG — "View all updates" link
-   ========================================================= */
+/* ---------- VIEW ALL UPDATES ---------- */
 .blog-view-all {
   text-align: center;
   margin-top: 20px;
@@ -806,21 +789,6 @@ textarea {
   white-space: nowrap;
 }
 
-.server-info-value.is-loading {
-  background: linear-gradient(
-    90deg,
-    rgba(154, 154, 168, 0.4) 0%,
-    rgba(230, 236, 245, 0.95) 50%,
-    rgba(154, 154, 168, 0.4) 100%
-  );
-  background-size: 200% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: shimmer 1.4s linear infinite;
-}
-
 .server-info-motd {
   font-style: italic;
   color: var(--donut);
@@ -828,7 +796,7 @@ textarea {
 }
 
 /* =========================================================
-   RULES PAGE — 4-column grid
+   RULES PAGE
    ========================================================= */
 .rules h2 {
   font-family: var(--font-pixel);
@@ -974,8 +942,8 @@ textarea {
   text-shadow: 0 0 12px rgba(96, 165, 250, 0.30);
 }
 
-/* ---------- RANKS ---------- */
-.rank-grid {
+.rank-grid,
+.shard-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
@@ -991,11 +959,6 @@ textarea {
   flex-direction: column;
   gap: 14px;
   transition: transform 0.18s ease, border-color 0.18s ease;
-}
-
-.rank-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(96, 165, 250, 0.30);
 }
 
 .rank-card.is-featured {
@@ -1067,13 +1030,6 @@ textarea {
   color: var(--muted);
 }
 
-/* ---------- SHARDS (1:1 cards) ---------- */
-.shard-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
 .shard-card {
   aspect-ratio: 1 / 1;
   background: var(--card-bg);
@@ -1084,11 +1040,6 @@ textarea {
   display: flex;
   flex-direction: column;
   transition: transform 0.18s ease, border-color 0.18s ease;
-}
-
-.shard-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(96, 165, 250, 0.30);
 }
 
 .shard-image-wrap {
@@ -1184,13 +1135,10 @@ textarea {
   outline-offset: 3px;
 }
 
-.rank-card .rank-perks,
-.shard-card .shard-body {
-  text-decoration: none;
-}
-
 .rank-card:hover,
 .shard-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(96, 165, 250, 0.30);
   box-shadow:
     0 14px 40px rgba(0, 0, 0, 0.65),
     0 0 0 1px rgba(96, 165, 250, 0.25);
@@ -1225,9 +1173,6 @@ textarea {
     2px 2px 0 rgba(0, 0, 0, 0.5);
 }
 
-/* =========================================================
-   DISCORD WIDGET CARD
-   ========================================================= */
 .discord-widget {
   max-width: 380px;
   margin: 0 auto;
@@ -1321,8 +1266,6 @@ textarea {
   transform: translateY(-1px);
   box-shadow: 0 8px 22px rgba(96, 165, 250, 0.45);
 }
-
-.discord-error { opacity: 0.7; }
 
 /* =========================================================
    ABOUT SECTION
@@ -1431,15 +1374,13 @@ textarea {
 
 .about-content p:last-child { margin-bottom: 0; }
 
-.about-content strong,
-.about-content em {
+.about-content strong {
   color: var(--text);
-  font-style: normal;
   font-weight: 600;
 }
 
 /* =========================================================
-   TERMS / POLICY PAGE
+   TERMS PAGE
    ========================================================= */
 .terms h2 {
   font-family: var(--font-pixel);
@@ -1658,7 +1599,6 @@ textarea {
   color: var(--donut);
   text-decoration: none;
   border-bottom: 1px solid rgba(96, 165, 250, 0.35);
-  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .faq-answer a:hover {
@@ -1699,7 +1639,6 @@ textarea {
   margin: 0 0 40px;
 }
 
-/* ---------- TIMELINE ---------- */
 .updates-timeline {
   position: relative;
   max-width: 820px;
@@ -1723,7 +1662,6 @@ textarea {
   border-radius: 2px;
 }
 
-/* ---------- YEAR MARKER ---------- */
 .update-year {
   position: relative;
   font-family: var(--font-pixel);
@@ -1735,9 +1673,7 @@ textarea {
   text-shadow: 0 0 14px rgba(96, 165, 250, 0.45);
 }
 
-.update-year:first-child {
-  margin-top: 0;
-}
+.update-year:first-child { margin-top: 0; }
 
 .update-year::before {
   content: "";
@@ -1754,7 +1690,6 @@ textarea {
     0 0 0 3px rgba(96, 165, 250, 0.15);
 }
 
-/* ---------- UPDATE CARD ---------- */
 .update-card {
   position: relative;
   background: var(--card-bg);
@@ -1764,9 +1699,9 @@ textarea {
   margin-bottom: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  scroll-margin-top: 24px;
 }
 
-/* Dot marker on the timeline */
 .update-card::before {
   content: "";
   position: absolute;
@@ -1788,7 +1723,23 @@ textarea {
     0 0 0 1px rgba(96, 165, 250, 0.12);
 }
 
-/* ---------- HEADER ROW ---------- */
+.update-card:target {
+  animation: anchor-flash 1.4s ease-out;
+}
+
+@keyframes anchor-flash {
+  0%, 100% {
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+  30% {
+    border-color: rgba(96, 165, 250, 0.55);
+    box-shadow:
+      0 12px 32px rgba(0, 0, 0, 0.6),
+      0 0 0 2px rgba(96, 165, 250, 0.25);
+  }
+}
+
 .update-head {
   display: flex;
   align-items: center;
@@ -1834,7 +1785,6 @@ textarea {
   border: 1px solid rgba(96, 165, 250, 0.30);
 }
 
-/* ---------- TITLE & TEXT ---------- */
 .update-title {
   font-family: var(--font-nav);
   font-weight: 700;
@@ -1854,9 +1804,7 @@ textarea {
   margin: 0 0 10px;
 }
 
-.update-text:last-child {
-  margin-bottom: 0;
-}
+.update-text:last-child { margin-bottom: 0; }
 
 .update-list {
   list-style: none;
@@ -1888,11 +1836,11 @@ textarea {
   box-shadow: 0 0 8px rgba(96, 165, 250, 0.55);
 }
 
-.update-list li:last-child {
-  margin-bottom: 0;
+.update-list li strong {
+  color: var(--text);
+  font-weight: 600;
 }
 
-/* ---------- FOOTER NOTE ---------- */
 .updates-footer-note {
   max-width: 820px;
   margin: 32px auto 0;
@@ -1903,49 +1851,6 @@ textarea {
   color: var(--muted);
   opacity: 0.7;
   line-height: 1.6;
-}
-
-/* ---------- RESPONSIVE ---------- */
-@media (max-width: 780px) {
-  .updates h2 { font-size: 13px; }
-  .updates-tagline { font-size: 13px; margin-bottom: 28px; }
-
-  .updates-timeline {
-    padding-left: 26px;
-  }
-
-  .updates-timeline::before {
-    left: 6px;
-  }
-
-  .update-year {
-    font-size: 11px;
-    margin: 24px 0 12px;
-  }
-
-  .update-year::before {
-    left: -26px;
-    width: 10px;
-    height: 10px;
-  }
-
-  .update-card {
-    padding: 16px 18px 18px;
-    border-radius: 12px;
-  }
-
-  .update-card::before {
-    left: -25px;
-    width: 6px;
-    height: 6px;
-    top: 20px;
-  }
-
-  .update-date { font-size: 10.5px; }
-  .update-title { font-size: 15px; }
-  .update-text,
-  .update-list li { font-size: 13.5px; }
-  .updates-footer-note { font-size: 11.5px; }
 }
 
 /* =========================================================
@@ -2099,7 +2004,6 @@ textarea {
   color: var(--donut);
   text-decoration: none;
   border-bottom: 1px solid rgba(96, 165, 250, 0.35);
-  transition: border-color 0.15s ease, color 0.15s ease;
 }
 
 .error-hint a:hover {
@@ -2159,24 +2063,19 @@ textarea {
   top: 20px;
   right: 20px;
   z-index: 10000;
-
   display: flex;
   align-items: center;
   gap: 14px;
-
   padding: 10px 18px 10px 12px;
   min-width: 320px;
   max-width: 380px;
-
   background: #1d1d1d;
   border: 2px solid #8b8b8b;
   border-radius: 6px;
-
   box-shadow:
     inset 0 0 0 2px #0a0a0a,
     inset 0 2px 0 2px rgba(255, 255, 255, 0.05),
     0 10px 40px rgba(0, 0, 0, 0.7);
-
   transform: translateX(calc(100% + 40px));
   opacity: 0;
   transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), opacity 0.4s ease;
@@ -2233,7 +2132,7 @@ textarea {
 }
 
 /* =========================================================
-   MINECRAFT-STYLE EXPLOSION — crescent puffs
+   MINECRAFT-STYLE EXPLOSION
    ========================================================= */
 .mc-boom {
   position: fixed;
@@ -2251,19 +2150,16 @@ textarea {
   height: var(--size);
   border-radius: 50%;
   pointer-events: none;
-
   background:
     radial-gradient(
       circle at 68% 32%,
       transparent 58%,
       currentColor 59%
     );
-
   transform:
     translate(-50%, -50%)
     rotate(var(--rot, 0deg))
     scale(0.2);
-
   animation: mc-puff 0.8s cubic-bezier(0.15, 0.7, 0.3, 1) forwards;
   animation-delay: var(--delay);
   opacity: 0;
@@ -2282,34 +2178,27 @@ textarea {
 
 @keyframes mc-puff {
   0% {
-    transform:
-      translate(-50%, -50%)
-      rotate(var(--rot, 0deg))
-      scale(0.2);
+    transform: translate(-50%, -50%) rotate(var(--rot, 0deg)) scale(0.2);
     opacity: 0;
   }
   15% { opacity: 0.95; }
   100% {
-    transform:
-      translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-      rotate(var(--rot, 0deg))
-      scale(1.4);
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+               rotate(var(--rot, 0deg)) scale(1.4);
     opacity: 0;
   }
 }
 
 /* =========================================================
-   PAGE LOAD — purple particle vignette pop, sway, fall, fade
+   PAGE LOAD — purple particle vignette
    ========================================================= */
 .sparkle {
   position: fixed;
   pointer-events: none;
   z-index: 1;
-
   background: transparent;
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.2);
-
   animation-name: sparkle-fall;
   animation-timing-function: cubic-bezier(0.45, 0.05, 0.55, 0.95);
   animation-fill-mode: forwards;
@@ -2326,7 +2215,6 @@ textarea {
   height: 3px;
   background: currentColor;
   transform: translate(-50%, -50%);
-
   box-shadow:
     0 0 0 currentColor,
     -6px -4px 0 currentColor,
@@ -2443,9 +2331,7 @@ textarea {
   }
 
   .blog { padding-top: 20px; }
-
   .blog h2 { font-size: 12px; margin-bottom: 16px; }
-
   .blog-carousel { padding: 0 8px; }
 
   .carousel-arrow {
@@ -2470,21 +2356,10 @@ textarea {
   .blog-excerpt { font-size: 13px; }
   .blog-body { padding: 14px 18px 16px; }
 
-  .server-info {
-    margin-top: 45px;
-  }
-
+  .server-info { margin-top: 45px; }
   .server-info h2 { font-size: 12px; }
-
-  .server-info-card {
-    padding: 4px 16px;
-  }
-
-  .server-info-row {
-    padding: 12px 0;
-    gap: 10px;
-  }
-
+  .server-info-card { padding: 4px 16px; }
+  .server-info-row { padding: 12px 0; gap: 10px; }
   .server-info-label { font-size: 11px; }
   .server-info-value { font-size: 13px; }
 
@@ -2505,32 +2380,15 @@ textarea {
   .shard-amount { font-size: 10.5px; }
   .shard-price { font-size: 12px; }
 
-  .about {
-    margin-top: 50px;
-  }
-
+  .about { margin-top: 50px; }
   .about h2 { font-size: 12px; }
-
-  .about-card {
-    padding: 20px 20px 22px 22px;
-  }
-
+  .about-card { padding: 20px 20px 22px 22px; }
   .about-section { font-size: 14.5px; }
+  .about-content p { font-size: 14px; line-height: 1.7; }
 
-  .about-content p {
-    font-size: 14px;
-    line-height: 1.7;
-  }
-
-  .terms-card {
-    padding: 20px 20px 22px 22px;
-  }
-
+  .terms-card { padding: 20px 20px 22px 22px; }
   .terms-card p,
-  .terms-list li {
-    font-size: 14px;
-  }
-
+  .terms-list li { font-size: 14px; }
   .terms h2 { font-size: 13px; }
 
   .faq h2 { font-size: 13px; }
@@ -2540,18 +2398,32 @@ textarea {
   .faq-question { font-size: 13.5px; }
   .faq-answer { padding: 0 16px 16px; font-size: 13.5px; }
 
-  .error-page {
-    min-height: auto;
-    padding: 40px 0 20px;
+  .updates h2 { font-size: 13px; }
+  .updates-tagline { font-size: 13px; margin-bottom: 28px; }
+  .updates-timeline { padding-left: 26px; }
+  .updates-timeline::before { left: 6px; }
+  .update-year { font-size: 11px; margin: 24px 0 12px; }
+  .update-year::before {
+    left: -26px;
+    width: 10px;
+    height: 10px;
   }
-
-  .error-block {
-    width: 72px;
-    height: 72px;
+  .update-card { padding: 16px 18px 18px; border-radius: 12px; }
+  .update-card::before {
+    left: -25px;
+    width: 6px;
+    height: 6px;
+    top: 20px;
   }
+  .update-date { font-size: 10.5px; }
+  .update-title { font-size: 15px; }
+  .update-text,
+  .update-list li { font-size: 13.5px; }
+  .updates-footer-note { font-size: 11.5px; }
 
+  .error-page { min-height: auto; padding: 40px 0 20px; }
+  .error-block { width: 72px; height: 72px; }
   .error-block-icon { font-size: 28px; }
-
   .error-code { font-size: 48px; letter-spacing: 3px; }
   .error-title { font-size: 13px; }
   .error-desc { font-size: 14px; }
@@ -2620,12 +2492,14 @@ textarea {
    REDUCED MOTION
    ========================================================= */
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   body { animation: none; }
   .brand-icon { animation: none; }
   .blog-card, .nav-link { transition: none; }
   .mc-puff { animation-duration: 0.01s; }
   .sparkle { animation-duration: 0.01s; }
   .error-block { animation: none; }
+  .update-card:target { animation: none; }
   .player-status.is-loading .status-count {
     animation: none;
     background: none;
