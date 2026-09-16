@@ -570,6 +570,34 @@ textarea {
   padding: 16px 22px 18px;
 }
 
+.blog-meta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.blog-date {
+  font-family: var(--font-nav);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--donut);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.blog-tag {
+  font-family: var(--font-nav);
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .blog-title {
   margin: 0 0 10px;
   font-family: var(--font-pixel);
@@ -655,6 +683,16 @@ textarea {
   text-shadow:
     0 0 18px rgba(96, 165, 250, 0.35),
     2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.rules-disclaimer {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-style: italic;
+  margin: -12px 0 24px;
+  opacity: 0.8;
 }
 
 .rules-list {
@@ -760,13 +798,16 @@ textarea {
   color: var(--muted);
   font-family: var(--font-body);
   font-size: 14.5px;
-  margin: 0 0 14px;
+  margin: 0 0 6px;
 }
 
-.store-server {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 32px;
+.store-notice {
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin: -6px 0 20px;
+  opacity: 0.75;
 }
 
 .store-section {
@@ -1499,9 +1540,11 @@ textarea {
   }
 
   .rules h2 { font-size: 13px; }
+  .rules-disclaimer { font-size: 12px; }
 
   .store h2 { font-size: 13px; }
   .store-tagline { font-size: 13.5px; }
+  .store-notice { font-size: 12px; }
   .store-section { font-size: 11px; }
   .price-amount { font-size: 16px; }
   .shard-amount { font-size: 10.5px; }
