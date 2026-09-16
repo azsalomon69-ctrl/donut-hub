@@ -344,8 +344,8 @@
             <span class="rule-chevron" aria-hidden="true"></span>
           </summary>
           <div class="faq-answer">
-            Live player counts come from <code>mcstatus.io</code>, a public Minecraft server status API. Discord member counts come from Discord's public invite API. Both are fetched live and refresh automatically.
-          </div>
+            Live player counts come from <code>mcstatus.io</code>, a public Minecraft server status API. Discord member counts come from Discord's public invite API. Both are fetched server-side at build time by our deploy pipeline and refreshed hourly, so the numbers you see are at most 1 hour old.
+        </div>
         </details>
 
       </div>
@@ -356,7 +356,7 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span class="footer-copy">© 2025 DonutSMP Hub</span>
+      <span class="footer-copy">© <span id="copyrightYear">2026</span> DonutSMP Hub</span>
       <a href="updates.html">Updates</a>
       <a href="https://support.donutsmp.net/" target="_blank" rel="noopener noreferrer">Support</a>
       <a href="terms.html">Terms of Service</a>

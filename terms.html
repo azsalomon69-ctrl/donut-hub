@@ -141,7 +141,7 @@
           <p>What we do use:</p>
           <ul class="terms-list">
             <li><strong>sessionStorage</strong> — a temporary, browser-only flag that plays a teleport sound once when you navigate between pages. Cleared when you close the tab. Never sent to any server.</li>
-            <li><strong>Third-party APIs</strong> — your browser makes direct requests to <code>minecraft-serverhub.com</code> (player count) and <code>discord.com</code> (community stats). Their privacy policies apply to those requests.</li>
+            <li><strong>Third-party APIs</strong> — the site's build process (running on Render) fetches player counts from <code>mcstatus.io</code> and community statistics from <code>discord.com</code>, then writes the values into the static HTML. Your browser does not make any third-party requests for these numbers.</li>
             <li><strong>Render and GitHub</strong> — the site is hosted by Render and deployed from GitHub. Their standard server logs apply.</li>
           </ul>
           <p>We do not use cookies. We do not sell data. We have nothing to sell because we don't collect anything.</p>
@@ -175,7 +175,7 @@
 
       </div>
 
-      <p class="terms-updated">Last updated: <time datetime="2025-01-01">January 2025</time></p>
+      <p class="terms-updated">Last updated: <time datetime="2026-06-20">June 2026</time></p>
 
     </section>
 
@@ -183,7 +183,7 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <span class="footer-copy">© 2025 DonutSMP Hub</span>
+      <span class="footer-copy">© <span id="copyrightYear">2026</span> DonutSMP Hub</span>
       <a href="updates.html">Updates</a>
       <a href="https://support.donutsmp.net/" target="_blank" rel="noopener noreferrer">Support</a>
       <a href="terms.html">Terms of Service</a>

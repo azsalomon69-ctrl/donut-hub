@@ -53,6 +53,12 @@ if (CAME_FROM_NAV) sessionStorage.removeItem("dnav");
   applyPositions();
 })();
 
+/* Auto-update copyright year */
+(function initCopyrightYear() {
+  const el = document.getElementById("copyrightYear");
+  if (el) el.textContent = new Date().getFullYear();
+})();
+
 
 /* =========================================================
    2. COPY-TO-CLIPBOARD + ACHIEVEMENT TOAST
