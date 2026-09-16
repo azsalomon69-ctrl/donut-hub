@@ -221,32 +221,45 @@ document.querySelectorAll(".copyable").forEach((el) => {
 });
 
 /* =========================================================
-   4. LIVE PLAYER COUNT — mcstatus.io via CORS proxy
+   4. LIVE PLAYER COUNT — Minecraft ServerHub (CORS-friendly)
+   Shows a shimmer skeleton while loading, then the real number.
    ========================================================= */
 (function initPlayerCount() {
   const el = document.getElementById("playerCount");
   const dot = document.getElementById("statusDot");
+  const pill = el?.closest(".player-status");
   if (!el) return;
 
-  const API = "https://api.mcstatus.io/v2/status/java/donutsmp.net";
+  const API = "https://minecraft-serverhub.com/api/ping?host=donutsmp.net&port=25565&platform=java";
 
   async function loadPlayerCount() {
-    const data = await proxyFetch(API);
+    pill?.classList.add("is-loading");
 
-    if (!data || !data.online) {
-      el.textContent = "Offline";
-      dot?.classList.remove("online");
-      return;
+    try {
+      const res = await fetch(API);
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+
+      if (!data.online) {
+        el.textContent = "Offline";
+        dot?.classList.remove("online");
+        return;
+      }
+
+      const online = data.players?.online ?? 0;
+      const max = data.players?.max ?? 0;
+
+      el.textContent = max
+        ? online.toLocaleString() + " / " + max.toLocaleString()
+        : online.toLocaleString();
+
+      dot?.classList.add("online");
+    } catch (err) {
+      console.error("Player count fetch failed:", err);
+      // Leave static fallback visible
+    } finally {
+      pill?.classList.remove("is-loading");
     }
-
-    const online = data.players?.online ?? 0;
-    const max = data.players?.max ?? 0;
-
-    el.textContent = max
-      ? online.toLocaleString() + " / " + max.toLocaleString()
-      : online.toLocaleString();
-
-    dot?.classList.add("online");
   }
 
   loadPlayerCount();

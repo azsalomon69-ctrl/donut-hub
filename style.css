@@ -348,6 +348,49 @@ textarea {
 }
 
 /* =========================================================
+   PLAYER STATUS — skeleton shimmer while loading
+   ========================================================= */
+.player-status .status-count {
+  transition: opacity 0.3s ease;
+}
+
+.player-status.is-loading .status-count {
+  background: linear-gradient(
+    90deg,
+    rgba(154, 154, 168, 0.4) 0%,
+    rgba(230, 236, 245, 0.95) 50%,
+    rgba(154, 154, 168, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: none;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.player-status.is-loading .status-dot {
+  opacity: 0.35;
+  animation: none;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player-status.is-loading .status-count {
+    animation: none;
+    background: none;
+    color: var(--muted);
+    -webkit-text-fill-color: var(--muted);
+    opacity: 0.5;
+  }
+}
+
+/* =========================================================
    NAV BAR
    ========================================================= */
 .main-nav {
