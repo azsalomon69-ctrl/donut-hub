@@ -10,6 +10,35 @@ if (CAME_FROM_NAV) sessionStorage.removeItem("dnav");
 
 
 /* =========================================================
+   HELPER — fetch through CORS proxies with fallback
+   ========================================================= */
+async function proxyFetch(url) {
+  const wrappers = [
+    (u) => "https://corsproxy.io/?url=" + encodeURIComponent(u),
+    (u) => "https://api.allorigins.win/raw?url=" + encodeURIComponent(u),
+    (u) => "https://thingproxy.freeboard.io/fetch/" + u,
+  ];
+
+  for (const wrap of wrappers) {
+    try {
+      const res = await fetch(wrap(url));
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (data && typeof data === "object") return data;
+    } catch {}
+  }
+
+  // Last resort: direct fetch
+  try {
+    const res = await fetch(url);
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+
+/* =========================================================
    1. BLOG "SHOW MORE / LESS" TOGGLE
    ========================================================= */
 const PREVIEW_WORDS = 10;
@@ -113,39 +142,32 @@ document.querySelectorAll(".copyable").forEach((el) => {
 
 
 /* =========================================================
-   4. LIVE PLAYER COUNT — mcstatus.io
+   4. LIVE PLAYER COUNT — mcstatus.io via CORS proxy
    ========================================================= */
 (function initPlayerCount() {
   const el = document.getElementById("playerCount");
   const dot = document.getElementById("statusDot");
   if (!el) return;
 
+  const API = "https://api.mcstatus.io/v2/status/java/donutsmp.net";
+
   async function loadPlayerCount() {
-    try {
-      const res = await fetch(
-        "https://api.mcstatus.io/v2/status/java/donutsmp.net"
-      );
-      const data = await res.json();
+    const data = await proxyFetch(API);
 
-      if (!data.online) {
-        el.textContent = "Offline";
-        dot?.classList.remove("online");
-        return;
-      }
-
-      const online = data.players?.online ?? 0;
-      const max = data.players?.max ?? 0;
-
-      el.textContent = max
-        ? online.toLocaleString() + " / " + max.toLocaleString()
-        : online.toLocaleString();
-
-      dot?.classList.add("online");
-    } catch (err) {
-      console.error("Player count fetch failed:", err);
-      el.textContent = "—";
+    if (!data || !data.online) {
+      el.textContent = "Offline";
       dot?.classList.remove("online");
+      return;
     }
+
+    const online = data.players?.online ?? 0;
+    const max = data.players?.max ?? 0;
+
+    el.textContent = max
+      ? online.toLocaleString() + " / " + max.toLocaleString()
+      : online.toLocaleString();
+
+    dot?.classList.add("online");
   }
 
   loadPlayerCount();
@@ -278,7 +300,6 @@ document.querySelectorAll(".copyable").forEach((el) => {
       const x = 50 + Math.cos(angle) * radius;
       const y = 50 + Math.sin(angle) * radius;
 
-      // Slower + smoother: 6s to 11s
       const duration = 6 + Math.random() * 5;
       const delay = Math.random() * 0.2;
 
@@ -290,7 +311,6 @@ document.querySelectorAll(".copyable").forEach((el) => {
       s.style.filter = `drop-shadow(0 0 ${scale * 3}px ${color})`;
       s.style.animationDuration = duration + "s";
       s.style.animationDelay = delay + "s";
-      // Smoother, more organic easing
       s.style.animationTimingFunction = "cubic-bezier(0.45, 0.05, 0.55, 0.95)";
 
       document.body.appendChild(s);
@@ -305,48 +325,21 @@ document.querySelectorAll(".copyable").forEach((el) => {
   }
 })();
 
+
 /* =========================================================
-   9. DISCORD WIDGET — Donut SMP (custom card)
+   8. DISCORD WIDGET — Donut SMP via CORS proxy
    ========================================================= */
 (function initDiscordWidget() {
   const el = document.getElementById("discordWidget");
   if (!el) return;
 
   const INVITE = "https://discord.com/invite/donutsmp";
+  const API = "https://discord.com/api/v9/invites/donutsmp?with_counts=true";
 
   async function loadDiscord() {
-    try {
-      const res = await fetch(
-        `https://discord.com/api/v9/invites/donutsmp?with_counts=true`
-      );
-      if (!res.ok) throw new Error("Invite fetch failed");
-      const data = await res.json();
+    const data = await proxyFetch(API);
 
-      const online = data.approximate_presence_count ?? 0;
-      const total = data.approximate_member_count ?? 0;
-      const name = data.guild?.name || "Donut SMP";
-
-      el.innerHTML = `
-        <div class="discord-card">
-          <div class="discord-top">
-            <div class="discord-icon">
-              <img src="donut.webp" alt="" class="discord-icon-img">
-            </div>
-            <div class="discord-info">
-              <div class="discord-name">${name}</div>
-              <div class="discord-count">
-                <span class="discord-dot"></span>
-                ${online.toLocaleString()} online • ${total.toLocaleString()} members
-              </div>
-            </div>
-          </div>
-          <a href="${INVITE}" class="discord-join" target="_blank" rel="noopener noreferrer">
-            Join the Discord →
-          </a>
-        </div>
-      `;
-    } catch (err) {
-      console.error("Discord widget failed:", err);
+    if (!data || !data.guild) {
       el.innerHTML = `
         <div class="discord-card discord-error">
           <div class="discord-top">
@@ -362,7 +355,32 @@ document.querySelectorAll(".copyable").forEach((el) => {
           </a>
         </div>
       `;
+      return;
     }
+
+    const online = data.approximate_presence_count ?? 0;
+    const total = data.approximate_member_count ?? 0;
+    const name = data.guild.name || "Donut SMP";
+
+    el.innerHTML = `
+      <div class="discord-card">
+        <div class="discord-top">
+          <div class="discord-icon">
+            <img src="donut.webp" alt="" class="discord-icon-img">
+          </div>
+          <div class="discord-info">
+            <div class="discord-name">${name}</div>
+            <div class="discord-count">
+              <span class="discord-dot"></span>
+              ${online.toLocaleString()} online • ${total.toLocaleString()} members
+            </div>
+          </div>
+        </div>
+        <a href="${INVITE}" class="discord-join" target="_blank" rel="noopener noreferrer">
+          Join the Discord →
+        </a>
+      </div>
+    `;
   }
 
   loadDiscord();
