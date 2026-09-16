@@ -36,4 +36,11 @@
     <priority>0.3</priority>
   </url>
 
+  <url>
+    <loc>https://donut-hub.onrender.com/updates.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>

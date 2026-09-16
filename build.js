@@ -66,8 +66,17 @@ async function build() {
   console.log("→ Final version:", version);
   console.log("→ Final MOTD:", motd);
   console.log("→ Final Discord:", discordText);
+  console.log("→ Build time:", buildTime);
 
-  const files = ["index.html", "rules.html", "store.html", "faq.html", "terms.html", "404.html"];
+  const files = [
+    "index.html",
+    "rules.html",
+    "store.html",
+    "faq.html",
+    "updates.html",
+    "terms.html",
+    "404.html",
+  ];
 
   for (const file of files) {
     try {
@@ -104,7 +113,7 @@ async function build() {
         );
       }
 
-      // Build timestamp on body
+      // Build timestamp on body (for client-side "Updated Xh ago")
       html = html.replace(
         /<body(\s[^>]*)?>/,
         `<body$1 data-built="${buildTime}">`
